@@ -50,7 +50,7 @@ git branch -M main
 
 ### Add remote repository
 ```bash
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/interactive-venue-square.git
+git remote add origin https://github.com/steisaden/squareSpaceComponent.git
 ```
 **Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username**
 
