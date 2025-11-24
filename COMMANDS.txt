@@ -1,0 +1,65 @@
+═══════════════════════════════════════════════════════════════
+  COPY AND PASTE THESE COMMANDS TO PUSH TO GITHUB
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Update package.json
+----------------------------
+Open package.json and change this line:
+"homepage": "https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME"
+
+Replace YOUR_GITHUB_USERNAME and YOUR_REPO_NAME with your actual info.
+
+
+STEP 2: Create GitHub Repository
+---------------------------------
+1. Go to https://github.com/new
+2. Repository name: interactive-venue-square (or your choice)
+3. Make it Public
+4. DO NOT add README, .gitignore, or license
+5. Click "Create repository"
+
+
+STEP 3: Run These Commands (one at a time)
+-------------------------------------------
+cd InteractiveVenueSquareElement
+
+git init
+
+git add .
+
+git commit -m "Initial commit: Interactive Venue Square"
+
+git branch -M main
+
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+
+git push -u origin main
+
+
+STEP 4: Install and Deploy
+---------------------------
+npm install --save-dev gh-pages
+
+npm run deploy
+
+
+STEP 5: Enable GitHub Pages
+----------------------------
+1. Go to your repo on GitHub
+2. Click "Settings"
+3. Click "Pages" in left sidebar
+4. Under "Source", select "gh-pages" branch
+5. Click "Save"
+
+Your site will be live at:
+https://YOUR_USERNAME.github.io/YOUR_REPO
+
+═══════════════════════════════════════════════════════════════
+
+FUTURE UPDATES:
+git add .
+git commit -m "Your update message"
+git push origin main
+npm run deploy
+
+═══════════════════════════════════════════════════════════════
