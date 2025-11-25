@@ -4,6 +4,7 @@ import { RubiksCube } from "./RubiksCube";
 import { VenueOverlay } from "./VenueOverlay";
 import { useEffect, useState } from "react";
 import { ResolvedConfig, Venue } from "../config";
+import { Smoke } from "./Smoke";
 
 interface RubiksCubeSceneProps {
   config: ResolvedConfig;
@@ -52,6 +53,9 @@ export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
             shadow-mapSize-height={2048}
           />
           <pointLight position={[0, 0, 5]} intensity={0.5} />
+
+          {/* Ambient smoke layer */}
+          <Smoke />
           
           {/* 4x4x1 Grid */}
           <RubiksCube
