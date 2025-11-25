@@ -6,6 +6,9 @@
   export default defineConfig({
     base: '/squareSpaceComponent/',
     plugins: [react()],
+    optimizeDeps: {
+      include: ['three', '@react-three/fiber', '@react-three/drei']
+    },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
@@ -54,6 +57,23 @@
     build: {
       target: 'esnext',
       outDir: 'dist',
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'three-vendor': ['three'],
+            'react-three': ['@react-three/fiber', '@react-three/drei'],
+            'react-vendor': ['react', 'react-dom']
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
     },
     server: {
       port: 3000,
