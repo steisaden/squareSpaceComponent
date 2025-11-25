@@ -12,20 +12,34 @@ export default function App({ config }: AppProps) {
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [hideOverlay, setHideOverlay] = useState(false);
 
   const handleLearnMore = (venue: Venue) => {
     setSelectedVenue(venue);
     setShowInfoModal(true);
+    setHideOverlay(true); // Hide overlay when modal opens
   };
 
   const handleBookNow = (venue: Venue) => {
     setSelectedVenue(venue);
     setShowBookingModal(true);
+    setHideOverlay(true); // Hide overlay when modal opens
   };
 
   const handleBookFromInfo = () => {
     setShowInfoModal(false);
     setShowBookingModal(true);
+  };
+
+  // Reset hide overlay when modals close
+  const handleCloseInfoModal = () => {
+    setShowInfoModal(false);
+    setHideOverlay(false);
+  };
+
+  const handleCloseBookingModal = () => {
+    setShowBookingModal(false);
+    setHideOverlay(false);
   };
 
   return (
@@ -45,6 +59,7 @@ export default function App({ config }: AppProps) {
         config={config}
         onLearnMore={handleLearnMore}
         onBookNow={handleBookNow}
+        hideOverlay={hideOverlay}
       />
       
       {/* Footer */}
@@ -58,13 +73,13 @@ export default function App({ config }: AppProps) {
           <VenueInfoModal
             venue={selectedVenue}
             isOpen={showInfoModal}
-            onClose={() => setShowInfoModal(false)}
+            onClose={handleCloseInfoModal}
             onBookNow={handleBookFromInfo}
           />
           <BookingModal
             venue={selectedVenue}
             isOpen={showBookingModal}
-            onClose={() => setShowBookingModal(false)}
+            onClose={handleCloseBookingModal}
           />
         </>
       )}

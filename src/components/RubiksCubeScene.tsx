@@ -10,9 +10,10 @@ interface RubiksCubeSceneProps {
   config: ResolvedConfig;
   onLearnMore?: (venue: Venue) => void;
   onBookNow?: (venue: Venue) => void;
+  hideOverlay?: boolean;
 }
 
-export function RubiksCubeScene({ config, onLearnMore, onBookNow }: RubiksCubeSceneProps) {
+export function RubiksCubeScene({ config, onLearnMore, onBookNow, hideOverlay }: RubiksCubeSceneProps) {
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
   const [isOverlayHovered, setIsOverlayHovered] = useState(false);
 
@@ -99,15 +100,17 @@ export function RubiksCubeScene({ config, onLearnMore, onBookNow }: RubiksCubeSc
         </Canvas>
       </div>
 
-      {/* Venue Overlay */}
-      <VenueOverlay
-        venue={hoveredVenue}
-        primaryCtaLabel={config.primaryCtaLabel}
-        secondaryCtaLabel={config.secondaryCtaLabel}
-        onOverlayHover={setIsOverlayHovered}
-        onLearnMore={onLearnMore}
-        onBookNow={onBookNow}
-      />
+      {/* Venue Overlay - hide when modal is open */}
+      {!hideOverlay && (
+        <VenueOverlay
+          venue={hoveredVenue}
+          primaryCtaLabel={config.primaryCtaLabel}
+          secondaryCtaLabel={config.secondaryCtaLabel}
+          onOverlayHover={setIsOverlayHovered}
+          onLearnMore={onLearnMore}
+          onBookNow={onBookNow}
+        />
+      )}
     </>
   );
 }
