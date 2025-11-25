@@ -34,6 +34,48 @@
   }
 }
 
+/* Smoky background effect inspired by shadcn/ui */
+.smoke-bg {
+  position: absolute;
+  inset: -15%;
+  overflow: hidden;
+  pointer-events: none;
+  filter: blur(70px);
+  opacity: 0.85;
+  mix-blend-mode: screen;
+}
+
+.smoke-bg::before,
+.smoke-bg::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.18), transparent 32%),
+    radial-gradient(circle at 80% 25%, rgba(255, 255, 255, 0.12), transparent 30%),
+    radial-gradient(circle at 30% 75%, rgba(255, 255, 255, 0.14), transparent 35%),
+    radial-gradient(circle at 75% 80%, rgba(255, 255, 255, 0.16), transparent 33%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08), transparent 36%);
+  animation: smoke-shift 20s ease-in-out infinite;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.smoke-bg::after {
+  animation-direction: alternate-reverse;
+  animation-duration: 24s;
+  opacity: 0.65;
+  filter: blur(90px);
+}
+
+@keyframes smoke-shift {
+  from {
+    transform: translate3d(-6%, -8%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(8%, 6%, 0) scale(1.08);
+  }
+}
+
 @layer theme {
   :root, :host {
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

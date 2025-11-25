@@ -62,7 +62,7 @@ export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
           
           {/* Controls - disabled rotation, only zoom */}
           <OrbitControls
-            enableZoom={true}
+            enableZoom={false}
             enablePan={false}
             enableRotate={false}
             minDistance={4}
