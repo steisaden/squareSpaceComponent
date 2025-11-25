@@ -16,27 +16,42 @@ export function RubiksCubeScene({ config, onLearnMore, onBookNow }: RubiksCubeSc
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
   const [isOverlayHovered, setIsOverlayHovered] = useState(false);
 
-  // Handle hover state - don't clear if hovering over overlay
+  // Handle hover state - only change if hovering a different venue or if not hovering overlay
   const handleVenueHover = (venue: Venue | null) => {
-    if (venue || !isOverlayHovered) {
+    // If hovering a new venue, always update
+    if (venue) {
       setHoveredVenue(venue);
+    }
+    // If leaving a venue (venue is null), only clear if not hovering overlay
+    else if (!isOverlayHovered) {
+      // Don't clear - let it stay visible
+      // Only clear when clicking outside or clicking another square
     }
   };
 
   useEffect(() => {
-    const handlePointerDown = (event: PointerEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (!hoveredVenue) return;
+      
       const target = event.target as HTMLElement | null;
       const isOnOverlay = target?.closest("[data-venue-overlay]");
-      const isOnTrigger = target?.closest("[data-venue-trigger]");
-      if (!isOnOverlay && !isOnTrigger) {
+      const isOnCanvas = target?.closest("canvas");
+      
+      // Only hide if clicking outside both the overlay and canvas
+      // Or if clicking on canvas but not on a venue square (handled by venue hover)
+      if (!isOnOverlay && !isOnCanvas) {
         setHoveredVenue(null);
+        setIsOverlayHovered(false);
       }
     };
 
-    document.addEventListener("pointerdown", handlePointerDown, true);
+    // Listen for clicks/touches outside
+    document.addEventListener("mousedown", handleClickOutside, true);
+    document.addEventListener("touchstart", handleClickOutside, true);
+    
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("mousedown", handleClickOutside, true);
+      document.removeEventListener("touchstart", handleClickOutside, true);
     };
   }, [hoveredVenue]);
 
@@ -48,7 +63,6 @@ export function RubiksCubeScene({ config, onLearnMore, onBookNow }: RubiksCubeSc
           shadows
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: true }}
-          onPointerMissed={() => setHoveredVenue(null)}
         >
           {/* Camera - positioned to view flat grid from front */}
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
