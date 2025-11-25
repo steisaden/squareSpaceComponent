@@ -98,12 +98,67 @@ Click **Save** and then **Publish** your site!
 
 ---
 
+## Functional Buttons
+
+The component includes two functional buttons:
+
+### 1. **Learn More Button**
+- Opens a lightbox modal with venue details
+- Shows venue image, features, amenities, and pricing
+- Includes a "Book Now" button to proceed to booking
+
+### 2. **Book Now Button**
+- Opens a booking payment portal
+- Two-step process: Event Details → Payment
+- Collects event information and processes payment
+- Shows confirmation upon completion
+
+## Routing & Integration with Squarespace
+
+### Option 1: Use Built-in Modals (Default)
+The component includes built-in lightbox modals that work out of the box. No additional setup needed!
+
+### Option 2: Route to Squarespace Pages
+
+To route buttons to your Squarespace pages instead of using modals:
+
+1. **Edit the venue links** in your config:
+   ```typescript
+   {
+     id: "wedding",
+     name: "The Grand Ballroom",
+     link: "/wedding-venue"  // Your Squarespace page URL
+   }
+   ```
+
+2. **Create corresponding pages** in Squarespace:
+   - `/wedding-venue`
+   - `/corporate-venue`
+   - `/dining-venue`
+   - `/gallery-venue`
+
+3. **Add booking forms** to each page using:
+   - Squarespace's built-in booking system
+   - Acuity Scheduling integration
+   - Custom form blocks
+
+### Option 3: External Booking System
+
+To integrate with external booking systems (e.g., Calendly, Acuity):
+
+1. **Update venue links** to external URLs:
+   ```typescript
+   link: "https://calendly.com/your-venue/booking"
+   ```
+
+2. **The buttons will open** the external booking page in a new tab
+
 ## Customizing Venue Information
 
 To change the venue names, descriptions, colors, and links:
 
 1. Go to your GitHub repository: https://github.com/steisaden/squareSpaceComponent
-2. Navigate to `src/components/RubiksCubeScene.tsx`
+2. Navigate to `src/config/venueConfig.ts` (or `src/components/RubiksCubeScene.tsx`)
 3. Click the **Edit** (pencil) icon
 4. Find the `venues` array and modify:
 
@@ -116,7 +171,7 @@ export const venues: Venue[] = [
     imageUrl: "your-image-url",        // Change this
     position: "top-left",
     color: "#E8D5C4",                  // Change color (hex code)
-    link: "/your-link"                 // Change link
+    link: "/your-squarespace-page"     // Change to your page URL
   },
   // ... repeat for other venues
 ];
@@ -124,6 +179,51 @@ export const venues: Venue[] = [
 
 5. Click **Commit changes**
 6. Run `npm run deploy` to update your live site
+
+## Customizing Modal Content
+
+### Edit Venue Details in Info Modal:
+Edit `src/components/VenueInfoModal.tsx` to customize:
+- Features & amenities list
+- Pricing information
+- Space details text
+- Button labels
+
+### Edit Booking Form:
+Edit `src/components/BookingModal.tsx` to customize:
+- Form fields
+- Pricing calculation
+- Payment processing
+- Confirmation message
+
+## Payment Integration
+
+The booking modal includes a payment form UI. To connect to a real payment processor:
+
+### Stripe Integration:
+```typescript
+// In BookingModal.tsx, add Stripe:
+import { loadStripe } from '@stripe/stripe-js';
+
+const handlePayment = async () => {
+  const stripe = await loadStripe('your_publishable_key');
+  // Process payment
+};
+```
+
+### Square Integration:
+```typescript
+// Add Square payment form
+import { PaymentForm } from 'react-square-web-payments-sdk';
+```
+
+### PayPal Integration:
+```typescript
+// Add PayPal buttons
+import { PayPalButtons } from "@paypal/react-paypal-js";
+```
+
+For detailed payment integration, see your payment processor's documentation.
 
 ---
 

@@ -5,9 +5,12 @@ interface VenueOverlayProps {
   venue: Venue | null;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
+  onLearnMore?: (venue: Venue) => void;
+  onBookNow?: (venue: Venue) => void;
+  onOverlayHover?: (isHovered: boolean) => void;
 }
 
-export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel }: VenueOverlayProps) {
+export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLearnMore, onBookNow, onOverlayHover }: VenueOverlayProps) {
   return (
     <AnimatePresence mode="wait">
       {venue && (
@@ -16,6 +19,8 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel }: Venu
           className="fixed inset-x-0 bottom-24 flex justify-center items-center px-4 z-20 pointer-events-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          onMouseEnter={() => onOverlayHover?.(true)}
+          onMouseLeave={() => onOverlayHover?.(false)}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           role="region"
@@ -73,12 +78,14 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel }: Venu
                   {/* Call to action */}
                   <div className="flex gap-3">
                     <button
+                      onClick={() => onLearnMore?.(venue)}
                       className="px-6 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors duration-200 pointer-events-auto cursor-pointer"
                       aria-label={`Learn more about ${venue.name}`}
                     >
                       {primaryCtaLabel}
                     </button>
                     <button
+                      onClick={() => onBookNow?.(venue)}
                       className="px-6 py-2 border-2 border-neutral-300 text-neutral-700 rounded-lg hover:border-neutral-400 hover:bg-neutral-50 transition-all duration-200 pointer-events-auto cursor-pointer"
                       aria-label={`Book ${venue.name}`}
                     >

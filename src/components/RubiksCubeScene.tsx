@@ -8,10 +8,20 @@ import { Smoke } from "./Smoke";
 
 interface RubiksCubeSceneProps {
   config: ResolvedConfig;
+  onLearnMore?: (venue: Venue) => void;
+  onBookNow?: (venue: Venue) => void;
 }
 
-export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
+export function RubiksCubeScene({ config, onLearnMore, onBookNow }: RubiksCubeSceneProps) {
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
+  const [isOverlayHovered, setIsOverlayHovered] = useState(false);
+
+  // Handle hover state - don't clear if hovering over overlay
+  const handleVenueHover = (venue: Venue | null) => {
+    if (venue || !isOverlayHovered) {
+      setHoveredVenue(venue);
+    }
+  };
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -59,7 +69,7 @@ export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
           
           {/* 4x4x1 Grid */}
           <RubiksCube
-            onHover={setHoveredVenue}
+            onHover={handleVenueHover}
             venues={config.venues}
             logoTextureUrl={config.logoTextureUrl}
           />
@@ -80,6 +90,9 @@ export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
         venue={hoveredVenue}
         primaryCtaLabel={config.primaryCtaLabel}
         secondaryCtaLabel={config.secondaryCtaLabel}
+        onOverlayHover={setIsOverlayHovered}
+        onLearnMore={onLearnMore}
+        onBookNow={onBookNow}
       />
     </>
   );
