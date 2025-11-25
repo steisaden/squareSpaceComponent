@@ -28,7 +28,6 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
   const [hoveredCorner, setHoveredCorner] = useState<string | null>(null);
   const [animationProgress, setAnimationProgress] = useState(0);
   const animationStartTime = useRef<number | null>(null);
-  const touchHideTimeout = useRef<number | null>(null);
 
   // Load the custom image texture
   const texture = useLoader(THREE.TextureLoader, logoTextureUrl, (loader) => {
@@ -113,23 +112,8 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
   const handlePointerDown = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
     if (!venue || event.pointerType !== "touch") return;
     event.stopPropagation();
-    if (touchHideTimeout.current !== null) {
-      window.clearTimeout(touchHideTimeout.current);
-    }
     setActiveVenue(venue);
-    touchHideTimeout.current = window.setTimeout(() => {
-      setActiveVenue(null);
-      touchHideTimeout.current = null;
-    }, 2400);
   };
-
-  useEffect(() => {
-    return () => {
-      if (touchHideTimeout.current !== null) {
-        window.clearTimeout(touchHideTimeout.current);
-      }
-    };
-  }, []);
 
   // All squares in 2x2 grid are interactive
   const isInteractive = (gridX: number, gridY: number): boolean => {
@@ -227,6 +211,7 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
                   href={venue.link}
                   className="block w-full h-full"
                   title={venue.name}
+                  data-venue-trigger
                   style={{
                     width: '200px',
                     height: '200px',

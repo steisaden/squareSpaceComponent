@@ -26,6 +26,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel }: Venu
             {/* Card container */}
             <motion.div
               className="relative bg-white rounded-2xl shadow-2xl overflow-hidden"
+              data-venue-overlay
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}

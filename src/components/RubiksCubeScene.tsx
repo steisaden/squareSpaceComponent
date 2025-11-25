@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { RubiksCube } from "./RubiksCube";
 import { VenueOverlay } from "./VenueOverlay";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResolvedConfig, Venue } from "../config";
 
 interface RubiksCubeSceneProps {
@@ -11,6 +11,23 @@ interface RubiksCubeSceneProps {
 
 export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!hoveredVenue) return;
+      const target = event.target as HTMLElement | null;
+      const isOnOverlay = target?.closest("[data-venue-overlay]");
+      const isOnTrigger = target?.closest("[data-venue-trigger]");
+      if (!isOnOverlay && !isOnTrigger) {
+        setHoveredVenue(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+    };
+  }, [hoveredVenue]);
 
   return (
     <>
