@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import { useLoader, useFrame } from "@react-three/fiber";
+import { useLoader, useFrame, ThreeEvent } from "@react-three/fiber";
 import { RoundedBox, Html } from "@react-three/drei";
 import * as THREE from "three";
-import { Venue } from "./RubiksCubeScene";
-import customImage from "../../hireslogo.png";
+import { Venue } from "../config";
 
 interface RubiksCubeProps {
   onHover: (venue: Venue | null) => void;
   venues: Venue[];
+  logoTextureUrl: string;
 }
 
 interface GridPosition {
@@ -23,14 +23,19 @@ const GAP = 0.005; // Reduced gap for more seamless look
 const GRID_SIZE = 2;
 const ANIMATION_DURATION = 1.5; // seconds
 
-export function RubiksCube({ onHover, venues }: RubiksCubeProps) {
+export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps) {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredCorner, setHoveredCorner] = useState<string | null>(null);
   const [animationProgress, setAnimationProgress] = useState(0);
   const animationStartTime = useRef<number | null>(null);
+  const touchHideTimeout = useRef<number | null>(null);
 
   // Load the custom image texture
-  const texture = useLoader(THREE.TextureLoader, customImage);
+  const texture = useLoader(THREE.TextureLoader, logoTextureUrl, (loader) => {
+    if (loader.setCrossOrigin) {
+      loader.setCrossOrigin("anonymous");
+    }
+  });
 
   // Animation frame
   useFrame((state) => {
@@ -88,19 +93,43 @@ export function RubiksCube({ onHover, venues }: RubiksCubeProps) {
 
   const positions = generateGridPositions();
 
-  const handlePointerOver = (venue: Venue | null) => {
-    if (venue) {
-      setHoveredCorner(venue.id);
-      onHover(venue);
-      document.body.style.cursor = 'pointer';
-    }
+  const setActiveVenue = (venue: Venue | null) => {
+    setHoveredCorner(venue?.id ?? null);
+    onHover(venue);
   };
 
-  const handlePointerOut = () => {
-    setHoveredCorner(null);
-    onHover(null);
-    document.body.style.cursor = 'default';
+  const handlePointerOver = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
+    if (!venue || event.pointerType === "touch") return;
+    setActiveVenue(venue);
+    document.body.style.cursor = "pointer";
   };
+
+  const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
+    if (event.pointerType === "touch") return;
+    setActiveVenue(null);
+    document.body.style.cursor = "default";
+  };
+
+  const handlePointerDown = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
+    if (!venue || event.pointerType !== "touch") return;
+    event.stopPropagation();
+    if (touchHideTimeout.current !== null) {
+      window.clearTimeout(touchHideTimeout.current);
+    }
+    setActiveVenue(venue);
+    touchHideTimeout.current = window.setTimeout(() => {
+      setActiveVenue(null);
+      touchHideTimeout.current = null;
+    }, 2400);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (touchHideTimeout.current !== null) {
+        window.clearTimeout(touchHideTimeout.current);
+      }
+    };
+  }, []);
 
   // All squares in 2x2 grid are interactive
   const isInteractive = (gridX: number, gridY: number): boolean => {
@@ -162,8 +191,9 @@ export function RubiksCube({ onHover, venues }: RubiksCubeProps) {
               smoothness={4}
               castShadow
               receiveShadow
-              onPointerOver={() => handlePointerOver(venue)}
+              onPointerOver={(event) => handlePointerOver(venue, event)}
               onPointerOut={handlePointerOut}
+              onPointerDown={(event) => handlePointerDown(venue, event)}
               scale={isHovered ? 1.05 : 1}
             >
               <meshStandardMaterial

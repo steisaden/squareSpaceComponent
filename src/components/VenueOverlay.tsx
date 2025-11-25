@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Venue } from "./RubiksCubeScene";
+import { Venue } from "../config";
 
 interface VenueOverlayProps {
   venue: Venue | null;
+  primaryCtaLabel: string;
+  secondaryCtaLabel: string;
 }
 
-export function VenueOverlay({ venue }: VenueOverlayProps) {
+export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel }: VenueOverlayProps) {
   return (
     <AnimatePresence mode="wait">
       {venue && (
@@ -73,13 +75,13 @@ export function VenueOverlay({ venue }: VenueOverlayProps) {
                       className="px-6 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors duration-200 pointer-events-auto cursor-pointer"
                       aria-label={`Learn more about ${venue.name}`}
                     >
-                      Learn More
+                      {primaryCtaLabel}
                     </button>
                     <button
                       className="px-6 py-2 border-2 border-neutral-300 text-neutral-700 rounded-lg hover:border-neutral-400 hover:bg-neutral-50 transition-all duration-200 pointer-events-auto cursor-pointer"
                       aria-label={`Book ${venue.name}`}
                     >
-                      Book Now
+                      {secondaryCtaLabel}
                     </button>
                   </div>
                 </motion.div>

@@ -3,57 +3,13 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { RubiksCube } from "./RubiksCube";
 import { VenueOverlay } from "./VenueOverlay";
 import { useState } from "react";
+import { ResolvedConfig, Venue } from "../config";
 
-export interface Venue {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string;
-  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-  color: string;
-  link: string;
+interface RubiksCubeSceneProps {
+  config: ResolvedConfig;
 }
 
-export const venues: Venue[] = [
-  {
-    id: "wedding",
-    name: "The Grand Ballroom",
-    description: "Best for elegant weddings and milestone celebrations with timeless sophistication",
-    imageUrl: "https://images.unsplash.com/photo-1674970538959-e7475d8d376f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MzkwMDQzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    position: "top-left",
-    color: "#E8D5C4",
-    link: "/spaces/wedding"
-  },
-  {
-    id: "corporate",
-    name: "Executive Center",
-    description: "Best for corporate events, conferences, and professional gatherings with cutting-edge technology",
-    imageUrl: "https://images.unsplash.com/photo-1758285477208-2300ae0c668d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb3Jwb3JhdGUlMjBldmVudCUyMHNwYWNlfGVufDF8fHx8MTc2MzkwODY3M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    position: "top-right",
-    color: "#C4D5E8",
-    link: "/spaces/corporate"
-  },
-  {
-    id: "dining",
-    name: "The Garden Terrace",
-    description: "Best for intimate dining experiences, cocktail receptions, and culinary showcases",
-    imageUrl: "https://images.unsplash.com/photo-1726533765356-2608b035ff6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1cHNjYWxlJTIwcmVzdGF1cmFudCUyMGRpbmluZ3xlbnwxfHx8fDE3NjM5MDg2NzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    position: "bottom-left",
-    color: "#D4E8C4",
-    link: "/spaces/dining"
-  },
-  {
-    id: "gallery",
-    name: "The Atrium Gallery",
-    description: "Best for art exhibitions, product launches, and creative showcases with natural lighting",
-    imageUrl: "https://images.unsplash.com/photo-1761386001767-4bc6f2648077?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnQlMjBnYWxsZXJ5JTIwZXhoaWJpdGlvbiUyMHNwYWNlfGVufDF8fHx8MTc2MzkwODY3NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    position: "bottom-right",
-    color: "#E8C4D5",
-    link: "/spaces/gallery"
-  }
-];
-
-export function RubiksCubeScene() {
+export function RubiksCubeScene({ config }: RubiksCubeSceneProps) {
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
 
   return (
@@ -64,6 +20,7 @@ export function RubiksCubeScene() {
           shadows
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: true }}
+          onPointerMissed={() => setHoveredVenue(null)}
         >
           {/* Camera - positioned to view flat grid from front */}
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
@@ -80,7 +37,11 @@ export function RubiksCubeScene() {
           <pointLight position={[0, 0, 5]} intensity={0.5} />
           
           {/* 4x4x1 Grid */}
-          <RubiksCube onHover={setHoveredVenue} venues={venues} />
+          <RubiksCube
+            onHover={setHoveredVenue}
+            venues={config.venues}
+            logoTextureUrl={config.logoTextureUrl}
+          />
           
           {/* Controls - disabled rotation, only zoom */}
           <OrbitControls
@@ -94,7 +55,11 @@ export function RubiksCubeScene() {
       </div>
 
       {/* Venue Overlay */}
-      <VenueOverlay venue={hoveredVenue} />
+      <VenueOverlay
+        venue={hoveredVenue}
+        primaryCtaLabel={config.primaryCtaLabel}
+        secondaryCtaLabel={config.secondaryCtaLabel}
+      />
     </>
   );
 }

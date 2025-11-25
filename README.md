@@ -104,6 +104,70 @@ const ANIMATION_DURATION = 1.5; // seconds
 const GAP = 0.05; // Adjust for more/less spacing
 ```
 
+## 🧩 Squarespace Embed
+
+1) Build and upload assets
+- Run `npm run build` to generate `dist/assets/index-*.js`, `dist/assets/index-*.css`, and `dist/assets/hireslogo-*.png`.
+- In Squarespace, open **Design → Custom CSS → Manage Custom Files** and upload those three files. Copy the URLs Squarespace returns (they look like `https://static1.squarespace.com/.../index-XXXX.js`).
+
+2) Drop a Code Block where you want the element to appear and paste:
+
+```html
+<div id="interactive-venue-square" data-venue-square-root data-venue-config='{
+  "headline": "Discover Your Perfect Venue",
+  "subheadline": "Hover over squares to explore our premium spaces",
+  "logoTextureUrl": "https://static1.squarespace.com/static/.../hireslogo-XXXX.png",
+  "primaryCtaLabel": "Learn More",
+  "secondaryCtaLabel": "Book Now",
+  "venues": [
+    {
+      "id": "wedding",
+      "name": "The Grand Ballroom",
+      "description": "Elegant weddings and milestone celebrations",
+      "imageUrl": "https://static1.squarespace.com/static/.../ballroom.jpg",
+      "link": "/spaces/wedding",
+      "color": "#E8D5C4"
+    },
+    {
+      "id": "corporate",
+      "name": "Executive Center",
+      "description": "Conferences and professional gatherings",
+      "imageUrl": "https://static1.squarespace.com/static/.../corporate.jpg",
+      "link": "/spaces/corporate",
+      "color": "#C4D5E8"
+    },
+    {
+      "id": "dining",
+      "name": "The Garden Terrace",
+      "description": "Dining, receptions, and culinary showcases",
+      "imageUrl": "https://static1.squarespace.com/static/.../dining.jpg",
+      "link": "/spaces/dining",
+      "color": "#D4E8C4"
+    },
+    {
+      "id": "gallery",
+      "name": "The Atrium Gallery",
+      "description": "Art exhibitions and creative showcases",
+      "imageUrl": "https://static1.squarespace.com/static/.../gallery.jpg",
+      "link": "/spaces/gallery",
+      "color": "#E8C4D5"
+    }
+  ]
+}'></div>
+
+<link rel="stylesheet" href="https://static1.squarespace.com/static/.../index-XXXX.css" />
+<script type="module" src="https://static1.squarespace.com/static/.../index-XXXX.js"></script>
+```
+
+3) What is configurable
+- `headline` and `subheadline` at the top of the embed
+- `logoTextureUrl` (the image split across the 2x2 cube)
+- Button labels (`primaryCtaLabel` / `secondaryCtaLabel`)
+- Per-venue name, description, imageUrl, link, and accent color (match by `id` or by position)
+
+4) Alternate configuration sources
+- Instead of `data-venue-config`, you can drop a `<script type="application/json" data-venue-square-config>...</script>` inside the same Code Block, or set a global `window.INTERACTIVE_VENUE_SQUARE_CONFIG` object before the module script tag.
+
 ## 📁 Project Structure
 
 ```
