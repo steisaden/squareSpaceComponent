@@ -1,53 +1,16 @@
-import { useState } from "react";
-import { LogoCubeScene } from "./components/LogoCubeScene";
-import { VenueInfoModal } from "./components/VenueInfoModal";
-import { BookingModal } from "./components/BookingModal";
-import { ResolvedConfig, Venue } from "./config";
+import homepageBg from "./assets/homepage_bg.png"; // Import the image
 
-interface AppProps {
-  config: ResolvedConfig;
-}
+// ... imports
 
 export default function App({ config }: AppProps) {
-  const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
-  const [hideOverlay, setHideOverlay] = useState(false);
-
-  const handleLearnMore = (venue: Venue) => {
-    setSelectedVenue(venue);
-    setShowInfoModal(true);
-    setHideOverlay(true); // Hide overlay when modal opens
-  };
-
-  const handleBookNow = (venue: Venue) => {
-    setSelectedVenue(venue);
-    setShowBookingModal(true);
-    setHideOverlay(true); // Hide overlay when modal opens
-  };
-
-  const handleBookFromInfo = () => {
-    setShowInfoModal(false);
-    setShowBookingModal(true);
-  };
-
-  // Reset hide overlay when modals close
-  const handleCloseInfoModal = () => {
-    setShowInfoModal(false);
-    setHideOverlay(false);
-  };
-
-  const handleCloseBookingModal = () => {
-    setShowBookingModal(false);
-    setHideOverlay(false);
-  };
+  // ... state
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/src/assets/homepage_bg.png')` }}
+        style={{ backgroundImage: `url(${homepageBg})` }}
         aria-hidden="true"
       />
 
