@@ -1,0 +1,87 @@
+import { useState } from "react";
+import { LogoCubeScene } from "./components/LogoCubeScene";
+import { VenueInfoModal } from "./components/VenueInfoModal";
+import { BookingModal } from "./components/BookingModal";
+import { ResolvedConfig, Venue } from "./config";
+
+interface AppProps {
+  config: ResolvedConfig;
+}
+
+export default function App({ config }: AppProps) {
+  const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [hideOverlay, setHideOverlay] = useState(false);
+
+  const handleLearnMore = (venue: Venue) => {
+    setSelectedVenue(venue);
+    setShowInfoModal(true);
+    setHideOverlay(true); // Hide overlay when modal opens
+  };
+
+  const handleBookNow = (venue: Venue) => {
+    setSelectedVenue(venue);
+    setShowBookingModal(true);
+    setHideOverlay(true); // Hide overlay when modal opens
+  };
+
+  const handleBookFromInfo = () => {
+    setShowInfoModal(false);
+    setShowBookingModal(true);
+  };
+
+  // Reset hide overlay when modals close
+  const handleCloseInfoModal = () => {
+    setShowInfoModal(false);
+    setHideOverlay(false);
+  };
+
+  const handleCloseBookingModal = () => {
+    setShowBookingModal(false);
+    setHideOverlay(false);
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url('/src/assets/homepage_bg.png')` }}
+        aria-hidden="true"
+      />
+
+      {/* Overlay to dim background slightly if needed, adjust opacity as desired */}
+      <div className="absolute inset-0 bg-black/10 z-0" />
+
+      {/* Main Content Area - Centered Logo Cube */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+        <div className="mt-[32px]"> {/* Adjust top margin to align perfect with logo position if needed */}
+          <LogoCubeScene
+            config={config}
+            onLearnMore={handleLearnMore}
+            onBookNow={handleBookNow}
+            hideOverlay={hideOverlay}
+          />
+        </div>
+      </div>
+
+      {/* Modals */}
+      {selectedVenue && (
+        <>
+          <VenueInfoModal
+            venue={selectedVenue}
+            isOpen={showInfoModal}
+            onClose={handleCloseInfoModal}
+            onBookNow={handleBookFromInfo}
+          />
+          <BookingModal
+            venue={selectedVenue}
+            isOpen={showBookingModal}
+            onClose={handleCloseBookingModal}
+          />
+        </>
+      )}
+    </div>
+  );
+}
