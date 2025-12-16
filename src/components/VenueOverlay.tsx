@@ -79,16 +79,16 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
           aria-live="polite"
           aria-label={`Venue information: ${venue.name}`}
         >
-          {/* Width constraint wrapper - Smaller size */}
-          <div className="relative w-[280px] sm:w-[320px]">
+          {/* Width constraint wrapper - Mini size (70% reduction approx from original) */}
+          <div className="relative w-[140px]">
             {/* Card container */}
             <div
-              className="relative bg-white rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
+              className="relative bg-white rounded-lg shadow-lg overflow-hidden pointer-events-auto"
               data-venue-overlay
             >
               <div className="flex flex-col">
                 {/* Image section */}
-                <div className="relative w-full h-28 overflow-hidden">
+                <div className="relative w-full h-14 overflow-hidden">
                   <img
                     src={venue.imageUrl}
                     alt={`${venue.name} venue space`}
@@ -98,39 +98,39 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
                   {/* Position label overlay */}
-                  <div className="absolute bottom-2 left-3 px-2 py-0.5 rounded-full bg-white/90 text-[10px] font-bold tracking-wider uppercase text-neutral-800">
+                  <div className="absolute bottom-1 left-1.5 px-1 py-0.5 rounded-full bg-white/90 text-[6px] font-bold tracking-wider uppercase text-neutral-800">
                     {venue.position.replace("-", " ")}
                   </div>
                 </div>
 
                 {/* Content section */}
-                <div className="p-4 flex flex-col">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="p-2 flex flex-col">
+                  <div className="flex items-center gap-1 mb-1">
                     <div
-                      className="w-2 h-2 rounded-full"
+                      className="w-1 h-1 rounded-full"
                       style={{ backgroundColor: venue.color }}
                       aria-hidden="true"
                     />
-                    <h2 className="text-base font-bold text-neutral-900 leading-tight">
+                    <h2 className="text-[9px] font-bold text-neutral-900 leading-tight">
                       {venue.name}
                     </h2>
                   </div>
 
-                  <p className="text-xs text-neutral-600 mb-3 line-clamp-3">
+                  <p className="text-[7px] text-neutral-600 mb-1.5 line-clamp-2 leading-tight">
                     {venue.description}
                   </p>
 
                   {/* Call to action */}
-                  <div className="flex gap-2 mt-auto">
+                  <div className="flex gap-1 mt-auto">
                     <button
                       onClick={() => onLearnMore?.(venue)}
-                      className="flex-1 px-3 py-1.5 bg-neutral-900 text-white text-xs rounded-lg hover:bg-neutral-800 transition-colors duration-200 cursor-pointer"
+                      className="flex-1 px-1.5 py-0.5 bg-neutral-900 text-white text-[7px] font-medium rounded hover:bg-neutral-800 transition-colors duration-200 cursor-pointer"
                     >
                       {primaryCtaLabel}
                     </button>
                     <button
                       onClick={() => onBookNow?.(venue)}
-                      className="flex-1 px-3 py-1.5 border border-neutral-200 text-neutral-700 text-xs rounded-lg hover:bg-neutral-50 transition-colors duration-200 cursor-pointer"
+                      className="flex-1 px-1.5 py-0.5 border border-neutral-200 text-neutral-700 text-[7px] font-medium rounded hover:bg-neutral-50 transition-colors duration-200 cursor-pointer"
                     >
                       {secondaryCtaLabel}
                     </button>
@@ -140,12 +140,10 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
 
               {/* Animated border accent */}
               <div
-                className="absolute inset-0 pointer-events-none border-2 border-transparent rounded-2xl"
+                className="absolute inset-0 pointer-events-none border-2 border-transparent rounded-lg"
                 style={{ borderColor: `${venue.color}40` }}
               />
             </div>
-
-            {/* Removed Arrow for corner styles as it complicates the clean corner look */}
           </div>
         </motion.div>
       )}
