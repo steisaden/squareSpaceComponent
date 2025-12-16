@@ -43,7 +43,7 @@ export default function App({ config }: AppProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-transparent">
 
       {/* Main Content Area - Centered Logo Cube */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">

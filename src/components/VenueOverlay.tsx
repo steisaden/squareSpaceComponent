@@ -79,8 +79,8 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
           aria-live="polite"
           aria-label={`Venue information: ${venue.name}`}
         >
-          {/* Width constraint wrapper - Mini size (70% reduction approx from original) */}
-          <div className="relative w-[140px]">
+          {/* Width constraint wrapper - Mini size (w-36 = 144px) */}
+          <div className="relative w-36">
             {/* Card container */}
             <div
               className="relative bg-white rounded-lg shadow-lg overflow-hidden pointer-events-auto"
