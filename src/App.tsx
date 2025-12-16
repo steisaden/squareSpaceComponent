@@ -3,7 +3,6 @@ import { LogoCubeScene } from "./components/LogoCubeScene";
 import { VenueInfoModal } from "./components/VenueInfoModal";
 import { BookingModal } from "./components/BookingModal";
 import { ResolvedConfig, Venue } from "./config";
-import homepageBg from "./assets/homepage_bg.png";
 
 interface AppProps {
   config: ResolvedConfig;
@@ -44,16 +43,7 @@ export default function App({ config }: AppProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${homepageBg})` }}
-        aria-hidden="true"
-      />
-
-      {/* Overlay to dim background slightly if needed, adjust opacity as desired */}
-      <div className="absolute inset-0 bg-black/10 z-0" />
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-white">
 
       {/* Main Content Area - Centered Logo Cube */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
