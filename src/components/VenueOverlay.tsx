@@ -67,7 +67,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
         <motion.div
           key={venue.id}
           className={clsx(
-            "z-20 pointer-events-none flex w-max", // w-max ensures it doesn't collapse
+            "z-50 pointer-events-none flex w-max", // w-max ensures it doesn't collapse
             posStyles.container
           )}
           initial={posStyles.initial}

@@ -50,7 +50,7 @@ export function LogoCubeScene({ config, onLearnMore, onBookNow, hideOverlay }: L
     return (
         <>
             {/* 3D Canvas - constrained to logo area */}
-            <div className="w-[300px] h-[300px] relative" role="img" aria-label="Interactive 3D Rubik's cube logo">
+            <div className="w-[300px] h-[300px] relative overflow-visible" role="img" aria-label="Interactive 3D Rubik's cube logo">
                 <Canvas
                     shadows
                     dpr={[1, 2]}
