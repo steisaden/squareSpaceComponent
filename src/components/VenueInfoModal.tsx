@@ -13,11 +13,11 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
-      <div 
+      <div
         className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
@@ -32,8 +32,8 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
 
         {/* Image */}
         <div className="relative h-64 md:h-80 overflow-hidden">
-          <img 
-            src={venue.imageUrl} 
+          <img
+            src={venue.imageUrl}
             alt={venue.name}
             className="w-full h-full object-cover"
           />
@@ -74,8 +74,8 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
             <div>
               <h3 className="text-xl font-semibold mb-3 text-gray-900">Space Details</h3>
               <p className="text-gray-600 leading-relaxed">
-                Our {venue.name.toLowerCase()} offers a stunning environment perfect for your special occasion. 
-                With state-of-the-art facilities, customizable layouts, and dedicated event support, 
+                Our {venue.name.toLowerCase()} offers a stunning environment perfect for your special occasion.
+                With state-of-the-art facilities, customizable layouts, and dedicated event support,
                 we ensure your event is memorable and seamless from start to finish.
               </p>
             </div>

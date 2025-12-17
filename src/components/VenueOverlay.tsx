@@ -27,25 +27,25 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
           // Better: "bottom-[80%] right-[80%]"? 
 
           // Let's use: origin-bottom-right
-          container: "absolute bottom-[85%] right-[85%] items-end justify-end origin-bottom-right",
+          container: "absolute bottom-[52%] right-[85%] items-end justify-end origin-bottom-right",
           initial: { opacity: 0, scale: 0.8, x: 20, y: 20 },
           exit: { opacity: 0, scale: 0.8, x: 20, y: 20 }
         };
       case "top-right":
         return {
-          container: "absolute bottom-[85%] left-[85%] items-end justify-start origin-bottom-left",
+          container: "absolute bottom-[52%] left-[85%] items-end justify-start origin-bottom-left",
           initial: { opacity: 0, scale: 0.8, x: -20, y: 20 },
           exit: { opacity: 0, scale: 0.8, x: -20, y: 20 }
         };
       case "bottom-left":
         return {
-          container: "absolute top-[85%] right-[85%] items-start justify-end origin-top-right",
+          container: "absolute top-[52%] right-[85%] items-start justify-end origin-top-right",
           initial: { opacity: 0, scale: 0.8, x: 20, y: -20 },
           exit: { opacity: 0, scale: 0.8, x: 20, y: -20 }
         };
       case "bottom-right":
         return {
-          container: "absolute top-[85%] left-[85%] items-start justify-start origin-top-left",
+          container: "absolute top-[52%] left-[85%] items-start justify-start origin-top-left",
           initial: { opacity: 0, scale: 0.8, x: -20, y: -20 },
           exit: { opacity: 0, scale: 0.8, x: -20, y: -20 }
         };

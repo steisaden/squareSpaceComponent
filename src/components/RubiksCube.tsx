@@ -41,10 +41,10 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
     if (animationStartTime.current === null) {
       animationStartTime.current = state.clock.elapsedTime;
     }
-    
+
     const elapsed = state.clock.elapsedTime - animationStartTime.current;
     const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
-    
+
     // Ease out cubic for smooth animation
     const eased = 1 - Math.pow(1 - progress, 3);
     setAnimationProgress(eased);
@@ -135,7 +135,7 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
     const img = texture.image;
     const cellWidth = img.width / GRID_SIZE;
     const cellHeight = img.height / GRID_SIZE;
-    
+
     // Calculate UV coordinates - flip Y to match screen coordinates
     const u = gridX * cellWidth;
     const v = (GRID_SIZE - 1 - gridY) * cellHeight;
@@ -192,10 +192,10 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
             {/* Front face with UV-mapped portion of the image */}
             <mesh position={[0, 0, (CUBE_SIZE * 0.2) / 2 + 0.01]}>
               <planeGeometry args={[CUBE_SIZE * 0.95, CUBE_SIZE * 0.95]} />
-              <meshBasicMaterial 
-                map={createCellTexture(pos.gridX, pos.gridY)} 
-                transparent 
-                opacity={0.95} 
+              <meshBasicMaterial
+                map={createCellTexture(pos.gridX, pos.gridY)}
+                transparent
+                opacity={0.95}
               />
             </mesh>
 
