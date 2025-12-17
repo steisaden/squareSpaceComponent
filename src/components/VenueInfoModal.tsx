@@ -18,7 +18,7 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-scale-in"
+        className="relative w-full max-w-md max-h-[70vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -31,7 +31,7 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
         </button>
 
         {/* Image */}
-        <div className="relative h-64 md:h-80 overflow-hidden">
+        <div className="relative h-48 md:h-56 overflow-hidden">
           <img
             src={venue.imageUrl}
             alt={venue.name}
@@ -39,13 +39,13 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{venue.name}</h2>
-            <p className="text-white/90 text-sm md:text-base">{venue.description}</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{venue.name}</h2>
+            <p className="text-white/90 text-xs md:text-sm">{venue.description}</p>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 md:p-8">
+        <div className="p-4 md:p-6">
           <div className="space-y-6">
             {/* Features */}
             <div>
