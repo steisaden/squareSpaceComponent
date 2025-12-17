@@ -14,11 +14,13 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-2 bg-black/70 backdrop-blur-sm animate-fade-in cursor-pointer"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
     >
       <div
-        className="relative w-full max-w-md max-h-[70vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-scale-in"
+        className="relative w-full max-w-md max-h-[70vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-scale-in cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
