@@ -81,18 +81,18 @@ export function LogoCubeScene({ config, onLearnMore, onBookNow, hideOverlay }: L
                         enableRotate={false}
                     />
                 </Canvas>
-            </div>
 
-            {!hideOverlay && (
-                <VenueOverlay
-                    venue={hoveredVenue}
-                    primaryCtaLabel={config.primaryCtaLabel}
-                    secondaryCtaLabel={config.secondaryCtaLabel}
-                    onOverlayHover={setIsOverlayHovered}
-                    onLearnMore={onLearnMore}
-                    onBookNow={onBookNow}
-                />
-            )}
+                {!hideOverlay && (
+                    <VenueOverlay
+                        venue={hoveredVenue}
+                        primaryCtaLabel={config.primaryCtaLabel}
+                        secondaryCtaLabel={config.secondaryCtaLabel}
+                        onOverlayHover={setIsOverlayHovered}
+                        onLearnMore={onLearnMore}
+                        onBookNow={onBookNow}
+                    />
+                )}
+            </div>
         </>
     );
 }

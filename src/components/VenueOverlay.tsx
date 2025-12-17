@@ -15,45 +15,46 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
 
   // Helper to determine position styles based on venue position
   const getPositionStyles = (position: string) => {
-    // We anchor firmly to the screen corners
+    // We anchor to the corners of the 300x300 logo box using absolute positioning
+    // We want them to "pop out" from the corners
     switch (position) {
       case "top-left":
         return {
-          container: "top-8 left-8 items-start justify-start",
-          arrow: "top-8 -right-3 -translate-y-1/2 rotate-45 hidden", // Hide arrow for corner style or adjust? User said "fit their respective outer corner". 
-          // Let's keep arrow but point it inwards?
-          // Actually, if it's in the corner, it should probably expand OUT from the corner.
-          initial: { opacity: 0, x: -20, y: -20, scale: 0.9 },
-          exit: { opacity: 0, x: -20, y: -20, scale: 0.9 }
+          // Note: using negative margins to bridge the gap slightly so it doesn't float too far? 
+          // Or strictly outer? User said "outer corners".
+          // Let's try strictly anchored to corner first: bottom-full right-full.
+          // Actually, let's use a small offset like translate to overlap just a tiny bit for continuity, or bridge gap.
+          // Better: "bottom-[80%] right-[80%]"? 
+
+          // Let's use: origin-bottom-right
+          container: "absolute bottom-[85%] right-[85%] items-end justify-end origin-bottom-right",
+          initial: { opacity: 0, scale: 0.8, x: 20, y: 20 },
+          exit: { opacity: 0, scale: 0.8, x: 20, y: 20 }
         };
       case "top-right":
         return {
-          container: "top-8 right-8 items-start justify-end",
-          arrow: "top-8 -left-3 -translate-y-1/2 rotate-45 hidden",
-          initial: { opacity: 0, x: 20, y: -20, scale: 0.9 },
-          exit: { opacity: 0, x: 20, y: -20, scale: 0.9 }
+          container: "absolute bottom-[85%] left-[85%] items-end justify-start origin-bottom-left",
+          initial: { opacity: 0, scale: 0.8, x: -20, y: 20 },
+          exit: { opacity: 0, scale: 0.8, x: -20, y: 20 }
         };
       case "bottom-left":
         return {
-          container: "bottom-8 left-8 items-end justify-start",
-          arrow: "bottom-8 -right-3 translate-y-1/2 rotate-45 hidden",
-          initial: { opacity: 0, x: -20, y: 20, scale: 0.9 },
-          exit: { opacity: 0, x: -20, y: 20, scale: 0.9 }
+          container: "absolute top-[85%] right-[85%] items-start justify-end origin-top-right",
+          initial: { opacity: 0, scale: 0.8, x: 20, y: -20 },
+          exit: { opacity: 0, scale: 0.8, x: 20, y: -20 }
         };
       case "bottom-right":
         return {
-          container: "bottom-8 right-8 items-end justify-end",
-          arrow: "bottom-8 -left-3 translate-y-1/2 rotate-45 hidden",
-          initial: { opacity: 0, x: 20, y: 20, scale: 0.9 },
-          exit: { opacity: 0, x: 20, y: 20, scale: 0.9 }
+          container: "absolute top-[85%] left-[85%] items-start justify-start origin-top-left",
+          initial: { opacity: 0, scale: 0.8, x: -20, y: -20 },
+          exit: { opacity: 0, scale: 0.8, x: -20, y: -20 }
         };
       default:
-        // Fallback to centered bottom if no position (shouldn't happen for corners)
+        // Fallback
         return {
-          container: "bottom-24 left-1/2 -translate-x-1/2",
-          arrow: "-top-3 left-1/2 -translate-x-1/2 rotate-45",
-          initial: { opacity: 0, y: 20 },
-          exit: { opacity: 0, y: 20 }
+          container: "absolute bottom-full left-1/2 -translate-x-1/2 mb-4",
+          initial: { opacity: 0, y: 10 },
+          exit: { opacity: 0, y: 10 }
         };
     }
   };
@@ -66,7 +67,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
         <motion.div
           key={venue.id}
           className={clsx(
-            "fixed z-20 pointer-events-none flex",
+            "z-20 pointer-events-none flex w-max", // w-max ensures it doesn't collapse
             posStyles.container
           )}
           initial={posStyles.initial}
@@ -79,70 +80,63 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
           aria-live="polite"
           aria-label={`Venue information: ${venue.name}`}
         >
-          {/* Width constraint wrapper - Mini size (w-36 = 144px) */}
-          <div className="relative w-36">
-            {/* Card container */}
+          <div className="relative w-64 h-80 pointer-events-auto" data-venue-overlay>
+            {/* Taller Split-Blur Card - Peruvian Lily Style */}
             <div
-              className="relative bg-white rounded-lg shadow-lg overflow-hidden pointer-events-auto"
-              data-venue-overlay
+              className="group relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-neutral-900 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-black/60"
+              role="button"
+              tabIndex={0}
+              onClick={() => onLearnMore?.(venue)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onLearnMore?.(venue);
+                }
+              }}
             >
-              <div className="flex flex-col">
-                {/* Image section */}
-                <div className="relative w-full h-14 overflow-hidden">
-                  <img
-                    src={venue.imageUrl}
-                    alt={`${venue.name} venue space`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              {/* Full Background Image */}
+              <div className="absolute inset-0 z-0">
+                <img
+                  src={venue.imageUrl}
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+              </div>
 
-                  {/* Position label overlay */}
-                  <div className="absolute bottom-1 left-1.5 px-1 py-0.5 rounded-full bg-white/90 text-[6px] font-bold tracking-wider uppercase text-neutral-800">
+              {/* Bottom Glass Blur Panel */}
+              <div className="absolute bottom-0 left-0 right-0 h-[60%] w-full overflow-hidden rounded-t-[1.5rem] rounded-b-[1.5rem] bg-gradient-to-b from-black/40 to-black/80 backdrop-blur-md border-t border-white/10 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:h-[65%]">
+
+                {/* Content Inside Glass Panel */}
+                <div className="flex h-full flex-col p-5 text-left text-white">
+                  {/* Title */}
+                  <h2 className="font-serif text-[1.75rem] leading-none tracking-wide drop-shadow-md">
+                    {venue.name}
+                  </h2>
+
+                  {/* Subtitle */}
+                  <p className="mt-1 font-serif text-[12px] italic text-[#e0d0c0] opacity-90">
                     {venue.position.replace("-", " ")}
-                  </div>
-                </div>
+                  </p>
 
-                {/* Content section */}
-                <div className="p-2 flex flex-col">
-                  <div className="flex items-center gap-1 mb-1">
-                    <div
-                      className="w-1 h-1 rounded-full"
-                      style={{ backgroundColor: venue.color }}
-                      aria-hidden="true"
-                    />
-                    <h2 className="text-[9px] font-bold text-neutral-900 leading-tight">
-                      {venue.name}
-                    </h2>
-                  </div>
-
-                  <p className="text-[7px] text-neutral-600 mb-1.5 line-clamp-2 leading-tight">
+                  {/* Description */}
+                  <p className="mt-3 text-[11px] leading-relaxed text-neutral-200 line-clamp-3 font-normal opacity-90">
                     {venue.description}
                   </p>
 
-                  {/* Call to action */}
-                  <div className="flex gap-1 mt-auto">
+                  {/* Button */}
+                  <div className="mt-auto pt-4">
                     <button
-                      onClick={() => onLearnMore?.(venue)}
-                      className="flex-1 px-1.5 py-0.5 bg-neutral-900 text-white text-[7px] font-medium rounded hover:bg-neutral-800 transition-colors duration-200 cursor-pointer"
+                      className="w-full rounded-full border border-white/20 bg-[#9D8452]/70 py-2.5 text-[11px] font-medium uppercase tracking-widest text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-[#9D8452]/90 hover:border-white/40 active:scale-95"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onLearnMore?.(venue);
+                      }}
                     >
                       {primaryCtaLabel}
-                    </button>
-                    <button
-                      onClick={() => onBookNow?.(venue)}
-                      className="flex-1 px-1.5 py-0.5 border border-neutral-200 text-neutral-700 text-[7px] font-medium rounded hover:bg-neutral-50 transition-colors duration-200 cursor-pointer"
-                    >
-                      {secondaryCtaLabel}
                     </button>
                   </div>
                 </div>
               </div>
-
-              {/* Animated border accent */}
-              <div
-                className="absolute inset-0 pointer-events-none border-2 border-transparent rounded-lg"
-                style={{ borderColor: `${venue.color}40` }}
-              />
             </div>
           </div>
         </motion.div>
