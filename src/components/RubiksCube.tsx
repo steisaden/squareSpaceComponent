@@ -97,20 +97,35 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
     onHover(venue);
   };
 
+  /* 
+     FORMAL INTERACTION PATTERN:
+     - Mouse: Hover (PointerOver/Out) triggers active state.
+     - Touch: Tap (Click) triggers active state.
+     - Raycasting: Uses Mesh geometry (eventSource calibrated in parent).
+  */
+
   const handlePointerOver = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
-    if (!venue || event.pointerType === "touch") return;
-    setActiveVenue(venue);
-    document.body.style.cursor = "pointer";
+    if (!venue) return;
+    // Mouse: Hover immediately activates
+    if (event.pointerType === 'mouse') {
+      event.stopPropagation();
+      setActiveVenue(venue);
+      document.body.style.cursor = "pointer";
+    }
   };
 
   const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
-    if (event.pointerType === "touch") return;
-    setActiveVenue(null);
-    document.body.style.cursor = "default";
+    // Mouse: Leaving clears the active state
+    if (event.pointerType === 'mouse') {
+      setActiveVenue(null);
+      document.body.style.cursor = "default";
+    }
   };
 
-  const handlePointerDown = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
-    if (!venue || event.pointerType !== "touch") return;
+  const handleClick = (venue: Venue | null, event: ThreeEvent<PointerEvent>) => {
+    if (!venue) return;
+    // Universal: Click (Mouse) or Tap (Touch) activates/confirms selection
+    // Critical: stopPropagation prevents the "Click Outside" listener from immediately closing it
     event.stopPropagation();
     setActiveVenue(venue);
   };
@@ -160,6 +175,7 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
     <group ref={groupRef}>
       {positions.map((pos, index) => {
         const venue = getVenueForPosition(pos.gridX, pos.gridY);
+        // Restore visual feedback based on active state
         const isHovered = venue && hoveredCorner === venue.id;
         const baseColor = venue ? venue.color : "#1a1a1a";
 
@@ -177,7 +193,7 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
               receiveShadow
               onPointerOver={(event) => handlePointerOver(venue, event)}
               onPointerOut={handlePointerOut}
-              onPointerDown={(event) => handlePointerDown(venue, event)}
+              onClick={(event) => handleClick(venue, event)}
               scale={isHovered ? 1.05 : 1}
             >
               <meshStandardMaterial
@@ -190,7 +206,7 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
             </RoundedBox>
 
             {/* Front face with UV-mapped portion of the image */}
-            <mesh position={[0, 0, (CUBE_SIZE * 0.2) / 2 + 0.01]}>
+            <mesh position={[0, 0, (CUBE_SIZE * 0.2) / 2 + 0.01]} pointerEvents="none">
               <planeGeometry args={[CUBE_SIZE * 0.95, CUBE_SIZE * 0.95]} />
               <meshBasicMaterial
                 map={createCellTexture(pos.gridX, pos.gridY)}
@@ -199,19 +215,19 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
               />
             </mesh>
 
-            {/* Invisible clickable area */}
+            {/* HTML Overlay kept purely for accessibility DOM presence if needed, but inactive */}
             {venue && animationProgress === 1 && (
               <Html
                 position={[0, 0, CUBE_SIZE * 0.2]}
                 center
                 distanceFactor={8}
-                style={{ pointerEvents: 'auto' }}
+                style={{ pointerEvents: 'none' }}
               >
                 <a
                   href={venue.link}
                   className="block w-full h-full"
                   title={venue.name}
-                  data-venue-trigger
+                  tabIndex={-1}
                   style={{
                     width: '200px',
                     height: '200px',
