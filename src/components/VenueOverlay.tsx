@@ -15,46 +15,44 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
 
   // Helper to determine position styles based on venue position
   const getPositionStyles = (position: string) => {
-    // We anchor to the corners of the 300x300 logo box using absolute positioning
-    // We want them to "pop out" from the corners
+    // Universal Positioning Strategy:
+    // Fixed at center of screen (Overlay style) for ALL devices.
+    // The card pops up "over" the square, blocking it, as requested.
+
+    // Note: We use fixed positioning to guarantee it sits on top of everything and isn't clipped by embed blocks.
+    const universalBase = "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] items-center justify-center";
+
     switch (position) {
       case "top-left":
         return {
-          // Note: using negative margins to bridge the gap slightly so it doesn't float too far? 
-          // Or strictly outer? User said "outer corners".
-          // Let's try strictly anchored to corner first: bottom-full right-full.
-          // Actually, let's use a small offset like translate to overlap just a tiny bit for continuity, or bridge gap.
-          // Better: "bottom-[80%] right-[80%]"? 
-
-          // Let's use: origin-bottom-right
-          container: "absolute bottom-[52%] right-[85%] items-end justify-end origin-bottom-right",
-          initial: { opacity: 0, scale: 0.8, x: 20, y: 20 },
-          exit: { opacity: 0, scale: 0.8, x: 20, y: 20 }
+          container: universalBase,
+          initial: { opacity: 0, scale: 0.8, x: -20, y: -20 }, // Enter from top-left logic
+          exit: { opacity: 0, scale: 0.8, x: -20, y: -20 }
         };
       case "top-right":
         return {
-          container: "absolute bottom-[52%] left-[85%] items-end justify-start origin-bottom-left",
-          initial: { opacity: 0, scale: 0.8, x: -20, y: 20 },
-          exit: { opacity: 0, scale: 0.8, x: -20, y: 20 }
+          container: universalBase,
+          initial: { opacity: 0, scale: 0.8, x: 20, y: -20 }, // Enter from top-right
+          exit: { opacity: 0, scale: 0.8, x: 20, y: -20 }
         };
       case "bottom-left":
         return {
-          container: "absolute top-[52%] right-[85%] items-start justify-end origin-top-right",
-          initial: { opacity: 0, scale: 0.8, x: 20, y: -20 },
-          exit: { opacity: 0, scale: 0.8, x: 20, y: -20 }
+          container: universalBase,
+          initial: { opacity: 0, scale: 0.8, x: -20, y: 20 }, // Enter from bottom-left
+          exit: { opacity: 0, scale: 0.8, x: -20, y: 20 }
         };
       case "bottom-right":
         return {
-          container: "absolute top-[52%] left-[85%] items-start justify-start origin-top-left",
-          initial: { opacity: 0, scale: 0.8, x: -20, y: -20 },
-          exit: { opacity: 0, scale: 0.8, x: -20, y: -20 }
+          container: universalBase,
+          initial: { opacity: 0, scale: 0.8, x: 20, y: 20 }, // Enter from bottom-right (standard)
+          exit: { opacity: 0, scale: 0.8, x: 20, y: 20 }
         };
       default:
         // Fallback
         return {
-          container: "absolute bottom-full left-1/2 -translate-x-1/2 mb-4",
-          initial: { opacity: 0, y: 10 },
-          exit: { opacity: 0, y: 10 }
+          container: universalBase,
+          initial: { opacity: 0, scale: 0.8, y: 20 },
+          exit: { opacity: 0, scale: 0.8, y: 20 }
         };
     }
   };
