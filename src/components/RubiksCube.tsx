@@ -48,6 +48,20 @@ export function RubiksCube({ onHover, venues, logoTextureUrl }: RubiksCubeProps)
     // Ease out cubic for smooth animation
     const eased = 1 - Math.pow(1 - progress, 3);
     setAnimationProgress(eased);
+
+    // Mouse Follow / Parallax Effect
+    if (groupRef.current) {
+      // Calculate target rotation based on mouse position (normalized -1 to 1)
+      // We invert X input for Y rotation to make it feel natural (follow mouse)
+      // Reduced range by 15% as requested (0.85 multiplier)
+      const targetRotationY = state.pointer.x * (Math.PI / 10) * 0.85;
+      const targetRotationX = -state.pointer.y * (Math.PI / 10) * 0.85;
+
+      // Smoothly interpolate current rotation to target
+      // 0.1 factor equates to a snappy but smooth spring-like feel
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.1);
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.1);
+    }
   });
 
   // Generate positions for 2x2 flat grid
