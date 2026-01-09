@@ -81,7 +81,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
           <div className="relative w-64 h-80 pointer-events-auto" data-venue-overlay>
             {/* Taller Split-Blur Card - Peruvian Lily Style */}
             <div
-              className="group relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-neutral-900 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-black/60"
+              className="group relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-neutral-900 shadow-2xl transition-all duration-500 hover:scale-[1.10] hover:shadow-black/60"
               role="button"
               tabIndex={0}
               onClick={() => onLearnMore?.(venue)}
@@ -102,7 +102,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
               </div>
 
               {/* Bottom Glass Blur Panel */}
-              <div className="absolute bottom-0 left-0 right-0 h-[60%] w-full overflow-hidden rounded-t-[1.5rem] rounded-b-[1.5rem] bg-gradient-to-b from-black/40 to-black/80 backdrop-blur-md border-t border-white/10 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:h-[65%]">
+              <div className="absolute bottom-0 left-0 right-0 h-[25%] w-full overflow-hidden rounded-t-[1.5rem] rounded-b-[1.5rem] bg-gradient-to-b from-black/40 to-black/80 backdrop-blur-md border-t border-white/10 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:h-[70%] group-hover:delay-1000">
 
                 {/* Content Inside Glass Panel */}
                 <div className="flex h-full flex-col p-5 text-left text-white">
@@ -112,9 +112,7 @@ export function VenueOverlay({ venue, primaryCtaLabel, secondaryCtaLabel, onLear
                   </h2>
 
                   {/* Subtitle */}
-                  <p className="mt-1 font-serif text-[12px] italic text-[#e0d0c0] opacity-90">
-                    {venue.position.replace("-", " ")}
-                  </p>
+
 
                   {/* Description */}
                   <p className="mt-3 text-[11px] leading-relaxed text-neutral-200 line-clamp-3 font-normal opacity-90">

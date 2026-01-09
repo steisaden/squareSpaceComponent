@@ -99,20 +99,7 @@ export function VenueInfoModal({ venue, isOpen, onClose, onBookNow }: VenueInfoM
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-3 pt-2">
-              <button
-                onClick={onBookNow}
-                className="flex-1 bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
-              >
-                Book Now
-              </button>
-              <button
-                onClick={onClose}
-                className="px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors"
-              >
-                Close
-              </button>
-            </div>
+
           </div>
         </div>
       </div>

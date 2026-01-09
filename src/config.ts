@@ -1,4 +1,8 @@
 import defaultLogoTexture from "../hireslogo.png";
+import phoenixImg from "./assets/phoenix.jpg";
+import eventCenterImg from "./assets/event_center.jpg";
+import whiteHouseImg from "./assets/white_house.jpg";
+import freebirdImg from "./assets/freebird.jpg";
 
 export type VenuePosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -18,7 +22,7 @@ export interface RawConfig {
   primaryCtaLabel?: string;
   secondaryCtaLabel?: string;
   logoTextureUrl?: string;
-  venues?: Array<Partial<Venue> & { position?: VenuePosition } & { id?: string } >;
+  venues?: Array<Partial<Venue> & { position?: VenuePosition } & { id?: string }>;
 }
 
 export interface ResolvedConfig {
@@ -32,40 +36,40 @@ export interface ResolvedConfig {
 
 const defaultVenues: Venue[] = [
   {
-    id: "wedding",
-    name: "The Grand Ballroom",
-    description: "Best for elegant weddings and milestone celebrations with timeless sophistication",
-    imageUrl: "https://images.unsplash.com/photo-1674970538959-e7475d8d376f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MzkwMDQzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "phoenix",
+    name: "The Phoenix",
+    description: "Modern Wedding Venue in Bethany, Oklahoma. Best for large-scale weddings and grand milestone celebrations where your story takes flight.",
+    imageUrl: phoenixImg,
     position: "top-left",
     color: "#E8D5C4",
-    link: "/spaces/wedding"
+    link: "/phoenix"
   },
   {
-    id: "corporate",
-    name: "Executive Center",
-    description: "Best for corporate events, conferences, and professional gatherings with cutting-edge technology",
-    imageUrl: "https://images.unsplash.com/photo-1758285477208-2300ae0c668d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb3Jwb3JhdGUlMjBldmVudCUyMHNwYWNlfGVufDF8fHx8MTc2MzkwODY3M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "event-center",
+    name: "The Event Center",
+    description: "Vibrant Party Venue for Every Gathering. Best for birthday parties, baby showers, and energetic corporate gatherings designed to pop with style.",
+    imageUrl: eventCenterImg,
     position: "top-right",
     color: "#C4D5E8",
-    link: "/spaces/corporate"
+    link: "/eventcenter"
   },
   {
-    id: "dining",
-    name: "The Garden Terrace",
-    description: "Best for intimate dining experiences, cocktail receptions, and culinary showcases",
-    imageUrl: "https://images.unsplash.com/photo-1726533765356-2608b035ff6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1cHNjYWxlJTIwcmVzdGF1cmFudCUyMGRpbmluZ3xlbnwxfHx8fDE3NjM5MDg2NzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "white-house",
+    name: "The White House",
+    description: "Iconic Boutique Venue for Intimate Events. Best for sophisticated bridal showers, professional meetings, and high-end brand photography sessions.",
+    imageUrl: whiteHouseImg,
     position: "bottom-left",
     color: "#D4E8C4",
-    link: "/spaces/dining"
+    link: "/whitehouse"
   },
   {
-    id: "gallery",
-    name: "The Atrium Gallery",
-    description: "Best for art exhibitions, product launches, and creative showcases with natural lighting",
-    imageUrl: "https://images.unsplash.com/photo-1761386001767-4bc6f2648077?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnQlMjBnYWxsZXJ5JTIwZXhoaWJpdGlvbiUyMHNwYWNlfGVufDF8fHx8MTc2MzkwODY3NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "freebird",
+    name: "Freebird Co-op",
+    description: "Light-filled Creative and Fitness Studio. Best for movement-based classes, dance classes/rehearsals, and intimate creative workshops.",
+    imageUrl: freebirdImg,
     position: "bottom-right",
     color: "#E8C4D5",
-    link: "/spaces/gallery"
+    link: "/freebird"
   }
 ];
 

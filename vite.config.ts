@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
-  base: '/squareSpaceComponent/',
+  base: '/',
   plugins: [react(), tailwindcss()],
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei']

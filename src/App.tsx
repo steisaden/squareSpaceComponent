@@ -15,15 +15,21 @@ export default function App({ config }: AppProps) {
   const [hideOverlay, setHideOverlay] = useState(false);
 
   const handleLearnMore = (venue: Venue) => {
-    setSelectedVenue(venue);
-    setShowInfoModal(true);
-    setHideOverlay(true); // Hide overlay when modal opens
+    // setSelectedVenue(venue);
+    // setShowInfoModal(true);
+    // setHideOverlay(true); // Hide overlay when modal opens
+    if (venue.link) {
+      window.location.href = venue.link;
+    }
+    console.log("Learn more clicked for:", venue.name);
   };
 
   const handleBookNow = (venue: Venue) => {
-    setSelectedVenue(venue);
-    setShowBookingModal(true);
-    setHideOverlay(true); // Hide overlay when modal opens
+    // setSelectedVenue(venue);
+    // setShowBookingModal(true);
+    // setHideOverlay(true); // Hide overlay when modal opens
+    // TODO: Link to actual website once ready
+    console.log("Book now clicked for:", venue.name);
   };
 
   const handleBookFromInfo = () => {
