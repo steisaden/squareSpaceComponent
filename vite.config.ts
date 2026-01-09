@@ -4,8 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
-  base: '/',
+  base: './',
   plugins: [react(), tailwindcss()],
+  esbuild: {
+    drop: ['console', 'debugger']
+  },
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei']
   },
@@ -58,9 +61,7 @@ export default defineConfig({
     target: 'esnext',
     outDir: 'dist',
     minify: 'esbuild',
-    esbuild: {
-      drop: ['console', 'debugger']
-    },
+
     rollupOptions: {
       output: {
         manualChunks: {
