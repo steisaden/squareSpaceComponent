@@ -42,7 +42,7 @@ const defaultVenues: Venue[] = [
     imageUrl: phoenixImg,
     position: "top-left",
     color: "#E8D5C4",
-    link: "/phoenix"
+    link: "https://www.36square.com/phoenix"
   },
   {
     id: "event-center",
@@ -51,7 +51,7 @@ const defaultVenues: Venue[] = [
     imageUrl: eventCenterImg,
     position: "top-right",
     color: "#C4D5E8",
-    link: "/eventcenter"
+    link: "https://www.36square.com/eventcenter"
   },
   {
     id: "white-house",
@@ -60,7 +60,7 @@ const defaultVenues: Venue[] = [
     imageUrl: whiteHouseImg,
     position: "bottom-left",
     color: "#D4E8C4",
-    link: "/whitehouse"
+    link: "https://www.36square.com/whitehouse"
   },
   {
     id: "freebird",
@@ -69,7 +69,7 @@ const defaultVenues: Venue[] = [
     imageUrl: freebirdImg,
     position: "bottom-right",
     color: "#E8C4D5",
-    link: "/freebird"
+    link: "https://www.36square.com/freebird"
   }
 ];
 
