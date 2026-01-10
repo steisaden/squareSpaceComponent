@@ -3,11 +3,11 @@ import { useLoader, useFrame } from "@react-three/fiber";
 import { RoundedBox, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { Venue } from "../config";
-import { 
-  getOptimalCubeSize, 
-  getOptimalAnimationDuration, 
+import {
+  getOptimalCubeSize,
+  getOptimalAnimationDuration,
   shouldReduceQuality,
-  isMobile 
+  isMobile
 } from "../utils/performanceOptimizer";
 
 interface RubiksCubeProps {
@@ -32,7 +32,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
   const [hoveredCorner, setHoveredCorner] = useState<string | null>(null);
   const [animationProgress, setAnimationProgress] = useState(0);
   const animationStartTime = useRef<number | null>(null);
-  
+
   // Optimize for device
   const CUBE_SIZE = useMemo(() => getOptimalCubeSize(), []);
   const ANIMATION_DURATION = useMemo(() => getOptimalAnimationDuration(), []);
@@ -40,7 +40,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
 
   // Load texture with optimization
   const texture = useLoader(THREE.TextureLoader, logoTextureUrl);
-  
+
   // Optimize texture settings
   useMemo(() => {
     if (texture) {
@@ -57,11 +57,11 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
   // Animation frame - optimized
   useFrame((state) => {
     if (animationProgress >= 1) return; // Stop updating when complete
-    
+
     if (animationStartTime.current === null) {
       animationStartTime.current = state.clock.elapsedTime;
     }
-    
+
     const elapsed = state.clock.elapsedTime - animationStartTime.current;
     const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
@@ -111,7 +111,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
   // Memoized texture creation for each cell
   const createCellTexture = useMemo(() => {
     const cache: { [key: string]: THREE.Texture } = {};
-    
+
     return (gridX: number, gridY: number): THREE.Texture => {
       const key = `${gridX}-${gridY}`;
       if (cache[key]) return cache[key];
@@ -129,7 +129,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
       const img = texture.image;
       const cellWidth = img.width / GRID_SIZE;
       const cellHeight = img.height / GRID_SIZE;
-      
+
       const u = gridX * cellWidth;
       const v = (GRID_SIZE - 1 - gridY) * cellHeight;
 
@@ -140,7 +140,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
       cellTexture.minFilter = THREE.LinearFilter;
       cellTexture.magFilter = THREE.LinearFilter;
       cellTexture.generateMipmaps = false;
-      
+
       cache[key] = cellTexture;
       return cellTexture;
     };
@@ -179,10 +179,10 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
             {/* Front face with UV-mapped portion */}
             <mesh position={[0, 0, (CUBE_SIZE * 0.2) / 2 + 0.01]}>
               <planeGeometry args={[CUBE_SIZE * 0.95, CUBE_SIZE * 0.95]} />
-              <meshBasicMaterial 
-                map={createCellTexture(pos.gridX, pos.gridY)} 
-                transparent 
-                opacity={0.95} 
+              <meshBasicMaterial
+                map={createCellTexture(pos.gridX, pos.gridY)}
+                transparent
+                opacity={0.95}
               />
             </mesh>
 
@@ -204,6 +204,7 @@ export function RubiksCubeOptimized({ onHover, venues, logoTextureUrl }: RubiksC
                     opacity: 0
                   }}
                   aria-label={venue.name}
+                  target="_top"
                 />
               </Html>
             )}

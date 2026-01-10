@@ -19,7 +19,7 @@ export default function App({ config }: AppProps) {
     // setShowInfoModal(true);
     // setHideOverlay(true); // Hide overlay when modal opens
     if (venue.link) {
-      window.location.href = venue.link;
+      (window.top || window).location.href = venue.link;
     }
     console.log("Learn more clicked for:", venue.name);
   };
